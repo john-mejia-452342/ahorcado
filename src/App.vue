@@ -7,7 +7,7 @@
       <h1>Bienvenidos al juego de el ahorcado</h1>
     </div>
     <div class="buttons">
-      <button class="btn" href="./components/facil.vue"><span></span><p data-start="good luck!" data-text="start!" data-title="new game"></p></button>
+      <button class="btn" id="btn-ir-modalidad"><span></span><p data-start="good luck!" data-text="start!" data-title="new game"></p></button>
    </div>
   </div>
 </template>

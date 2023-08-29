@@ -44,21 +44,21 @@
                         <div class="modal-body">
                             <form>
                                 <div class="mb-3">
-                                    <button class="dos">
+                                    <button class="dos" id="easy">
                                         <span>
                                             Animales
                                         </span>
                                     </button>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="dos">
+                                    <button class="dos" id="medio">
                                         <span>
                                             Marcas de ropa
                                         </span>
                                     </button>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="dos">
+                                    <button class="dos" id="hard">
                                         <span>
                                             ciudades
                                         </span>
