@@ -3,11 +3,7 @@
     <div class="container_letras">
       <div v-for="(item, i) in letras" :key="i" class="container-items">
         <div v-for="(letra, j) in item" :key="j" class="container-letras">
-          <button
-            :value="letra"
-            @click="seleccionarLetra(letra)"
-            :disabled="letrasSeleccionadas.includes(letra) || mensaje"
-          >
+          <button :value="letra" @click="seleccionarLetra(letra)">
             {{ letra }}
           </button>
         </div>
@@ -15,155 +11,120 @@
     </div>
     <div class="container-ahorcado">
       <div class="ahorcado">
-        <div class="base2" v-show="intentosFallidos >= 1">
+        <div class="base2">
           <img src="src/assets/base2.png" alt="">
         </div>
-        <div class="base3" v-show="intentosFallidos >= 2">
+        <div class="base3">
           <img src="src/assets/base3.png" alt="">
         </div>
-        <div class="soga" v-show="intentosFallidos >= 3">
+        <div class="soga">
           <img src="src/assets/soga.png" alt="">
         </div>
-        <div class="cabeza" v-show="intentosFallidos >= 4">
-          <img src="src/assets/cabeza1.png" alt="">
+        <div class="cabeza">
+          <img src="src/assets/cabeza.png" alt="">
         </div>
-        <div class="cuerpo" v-show="intentosFallidos >= 5">
+        <div class="cuerpo">
           <img src="src/assets/cuerpo.png" alt="">
         </div>
-        <div class="brazo-izq" v-show="intentosFallidos >= 6">
+        <div class="brazo-izq">
           <img src="src/assets/brazo-izq.png" alt="">
         </div>
-        <div class="brazo-der" v-show="intentosFallidos >= 7">
+        <div class="brazo-der">
           <img src="src/assets/brazo-der.png" alt="">
         </div>
-        <div class="pierna-izq" v-show="intentosFallidos >= 8">
+        <div class="pierna-izq">
           <img src="src/assets/pierna-izq.png" alt="">
         </div>
-        <div class="pierna-der" v-show="intentosFallidos >= 9">
+        <div class="pierna-der">
           <img src="src/assets/pierna-der.png" alt="">
         </div>
-        <div class="base1" v-show="intentosFallidos >= 10">
+        <div class="base1">
           <img src="src/assets/base1.png" alt="">
         </div>
-        <div class="base" v-show="intentosFallidos >= 11">
+        <div class="base">
           <img src="src/assets/base.png" alt="">
         </div>
       </div>
       <div class="container-letras-ahorcado">
-        <div class="letra" v-for="(letra, index) in palabraOculta" :key="index">
-          <input
-            type="text"
-            :value="letra === ' ' ? ' ' : letrasSeleccionadas.includes(letra) ? letra : ''"
-            :disabled="letra !== '_' && letra !== ' '"
-          />
-        </div>
       </div>
-      <div class="mensaje" v-if="mensaje">
-        <p>{{ mensaje }}</p>
+      <div class="mensaje">
+
       </div>
-    </div>
+        <button @click="generarAleatorio">Nuevo Juego</button>
+        <label for="" style="color: white;">{{ aleatorio }}</label>
+      </div>
+      <div>
+        <ul id="horizontal-list"> 
+          <button v-for="item in palabra_escrita" type="button" class="btn btn-primary cuadro">
+          <span class="badge">{{ item }}</span></button>
+        </ul>
+      </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      letras: [
-        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ"],
-        [ "Z", "X", "C", "V", "B", "N", "M", ],
-      ],
-      frutas: [
-        "Manzana",
-        "Plátano",
-        "Naranja",
-        "Uva",
-        "Fresa",
-        "Sandía",
-        "Kiwi",
-        "Melocoton",
-        "Mango",
-        "Papaya",
-        "Limón",
-        "Cereza",
-        "Arandano",
-        "Pera",
-        "Frambuesa",
-      ],
-      palabraSeleccionada: "",
-      intentosFallidos: 0,
-      letrasSeleccionadas: [],
-      mensaje: "",
-    };
-  },
-  computed: {
-    palabraOculta() {
-      const palabra = this.palabraSeleccionada.toUpperCase();
-      let palabraOculta = "";
-      let primeraLetra = true;
+<script setup>
+import { ref} from 'vue';
 
-      for (const letra of palabra) {
-        if (letra.match(/[A-Z]/)) {
-          if (primeraLetra) {
-            palabraOculta += letra;
-            primeraLetra = false;
-          } else {
-            palabraOculta += "_";
-          }
-        } else {
-          palabraOculta += letra;
-        }
-      }
+const letras = ref([
+  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+  ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ"],
+  ["Z", "X", "C", "V", "B", "N", "M"],
+]);
 
-      return palabraOculta;
-    },
-  },
-  created() {
-    this.iniciarJuego();
-  },
-  methods: {
-    iniciarJuego() {
-      this.palabraSeleccionada =
-        this.frutas[Math.floor(Math.random() * this.frutas.length)];
-      this.intentosFallidos = 0;
-      this.letrasSeleccionadas = [];
-      this.mensaje = "";
-    },
-    seleccionarLetra(letra) {
-      if (!this.letrasSeleccionadas.includes(letra)) {
-        this.letrasSeleccionadas.push(letra);
+const frutas = ref([
+  "Manzana",
+  "Banano",
+  "Naranja",
+  "Uva",
+  "Fresa",
+  "Sandia",
+  "Kiwi",
+  "Melocoton",
+  "Mango",
+  "Papaya",
+  "Limon",
+  "Cereza",
+  "Arandano",
+  "Pera",
+  "Frambuesa",
+]);
 
-        if (this.palabraSeleccionada.toUpperCase().includes(letra)) {
-          // La letra está en la palabra, actualiza palabraOculta
-          const palabraArray = this.palabraSeleccionada.split("");
-          const nuevaPalabraOculta = palabraArray.map((letraPalabra) => {
-            if (letraPalabra.toUpperCase() === letra) {
-              return letraPalabra;
-            } else {
-              return this.palabraOculta[palabraArray.indexOf(letraPalabra)];
-            }
-          });
+let game = ref(true)
+let win = ref(false)
+let lost = ref(false)
+let contador_aciertos = ref(0)
+let contador_errores = ref(0)
+let aleatorio = ref(0)
+let palabra_escrita = ref([])
+let botones = ref([])
+let color_botones = ref([])
 
-          this.palabraOculta = nuevaPalabraOculta.join("");
+function generarAleatorio() {
+  palabra_escrita.value = []
+  game.value = true
+  aleatorio.value = Math.floor(Math.random()*frutas.value.length)
+  console.log(aleatorio.value);
+  for (let i = 0; i < frutas.value[aleatorio.value].length; i++) {
+    palabra_escrita.value.push('')
+  }
+  
 
-          // Verifica si se ha completado la palabra y muestra el mensaje
-          if (!this.palabraOculta.includes("_")) {
-            this.mensaje = "¡Bien hecho!";
-          }
-        } else {
-          // La letra no está en la palabra, incrementa los intentos fallidos
-          this.intentosFallidos += 1;
+}
 
-          // Verifica si se ha perdido el juego y muestra el letrero
-          if (this.intentosFallidos >= 11) {
-            this.mensaje = "¡Perdiste!";
-          }
-        }
-      }
-    },
-  },
-};
+function created() {
+  generarAleatorio()
+  
+}
+
+
+
+
+
+
+let mensaje = ref('');
+
+
+
 </script>
 
 
