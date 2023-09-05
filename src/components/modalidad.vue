@@ -2,89 +2,44 @@
     <div>
         <div class="contenedor ">
             <h1>Elige la dificultad en la que deseas jugar</h1>
-
-            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" id="easy" @click="selectedDifficulty = 'easy'">E A S Y
-                <div id="clip">
-                    <div id="leftTop" class="corner"></div>
-                    <div id="rightBottom" class="corner"></div>
-                    <div id="rightTop" class="corner"></div>
-                    <div id="leftBottom" class="corner"></div>
-                </div>
-                <span id="rightArrow" class="arrow"></span>
-                <span id="leftArrow" class="arrow"></span>
-            </button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" id="medium" @click="selectedDifficulty = 'medium'">M E D I U M
-                <div id="clip">
-                    <div id="leftTop" class="corner"></div>
-                    <div id="rightBottom" class="corner"></div>
-                    <div id="rightTop" class="corner"></div>
-                    <div id="leftBottom" class="corner"></div>
-                </div>
-                <span id="rightArrow" class="arrow"></span>
-                <span id="leftArrow" class="arrow"></span>
-            </button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" id="hard" @click="selectedDifficulty = 'hard'">H A R D
-                <div id="clip">
-                    <div id="leftTop" class="corner"></div>
-                    <div id="rightBottom" class="corner"></div>
-                    <div id="rightTop" class="corner"></div>
-                    <div id="leftBottom" class="corner"></div>
-                </div>
-                <span id="rightArrow" class="arrow"></span>
-                <span id="leftArrow" class="arrow"></span>
-            </button>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-4" id="exampleModalLabel">Elige que tema te gustaria </h1>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <button class="dos" id="animales" @click="selectedTheme = 'Animales'">
-                                        <span>
-                                            Animales
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="dos" id="marcas-ropa" @click="selectedTheme = 'Marca Ropa'">
-                                        <span>
-                                            Marcas de ropa
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="dos" id="ciudades" @click="selectedTheme = 'Ciudades'">
-                                        <span>
-                                            Ciudades
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="dos" id="paises" @click="selectedTheme = 'Paises'">
-                                        <span>
-                                            Paises
-                                        </span>
-                                    </button>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="dos" id="frutas" @click="selectedTheme = 'Frutas'">
-                                        <span>
-                                            Frutas
-                                        </span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="dos" data-bs-dismiss="modal" @click="selectedDifficulty = null; selectedTheme = null">Close</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="mb-3">
+                <button class="dos" id="animales" @click="selectedTheme = 'Animales'">
+                    <span>
+                        Animales
+                    </span>
+                </button>
             </div>
+            <div class="mb-3">
+                <button class="dos" id="marcas-ropa" @click="selectedTheme = 'Marca Ropa'">
+                    <span>
+                        Marcas de ropa
+                    </span>
+                </button>
+            </div>
+            <div class="mb-3">
+                <button class="dos" id="ciudades" @click="selectedTheme = 'Ciudades'">
+                    <span>
+                        Ciudades
+                    </span>
+                </button>
+            </div>
+            <div class="mb-3">
+                <button class="dos" id="paises" @click="selectedTheme = 'Paises'">
+                    <span>
+                        Paises
+                    </span>
+                </button>
+            </div>
+            <div class="mb-3">
+                <button class="dos" id="frutas" @click="selectedTheme = 'Frutas'">
+                    <span>
+                        Frutas
+                    </span>
+                </button>
+            </div>
+            
+
+        
         </div>
 
     </div>
@@ -104,7 +59,7 @@ console.log(selectedTheme.value);
 <style scoped>
 .contenedor {
     border: solid rgb(255, 255, 255) 2px;
-    height: 52vh;
+    height: 63vh;
     width: 100%;
     background-color: rgba(136, 134, 134, 0.637);
     display: flex;
