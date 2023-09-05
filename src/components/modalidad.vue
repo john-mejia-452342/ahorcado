@@ -3,7 +3,7 @@
         <div class="contenedor ">
             <h1>Elige la dificultad en la que deseas jugar</h1>
 
-            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">E A S Y
+            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" id="easy" @click="selectedDifficulty = 'easy'">E A S Y
                 <div id="clip">
                     <div id="leftTop" class="corner"></div>
                     <div id="rightBottom" class="corner"></div>
@@ -13,7 +13,7 @@
                 <span id="rightArrow" class="arrow"></span>
                 <span id="leftArrow" class="arrow"></span>
             </button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">M E D I U M
+            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" id="medium" @click="selectedDifficulty = 'medium'">M E D I U M
                 <div id="clip">
                     <div id="leftTop" class="corner"></div>
                     <div id="rightBottom" class="corner"></div>
@@ -23,8 +23,7 @@
                 <span id="rightArrow" class="arrow"></span>
                 <span id="leftArrow" class="arrow"></span>
             </button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">H A
-                R D
+            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap" id="hard" @click="selectedDifficulty = 'hard'">H A R D
                 <div id="clip">
                     <div id="leftTop" class="corner"></div>
                     <div id="rightBottom" class="corner"></div>
@@ -39,40 +38,40 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Elige que tema te gustaria </h1>
+                            <h1 class="modal-title fs-4" id="exampleModalLabel">Elige que tema te gustaria </h1>
                         </div>
                         <div class="modal-body">
                             <form>
                                 <div class="mb-3">
-                                    <button class="dos" id="easy">
+                                    <button class="dos" id="animales" @click="selectedTheme = 'Animales'">
                                         <span>
                                             Animales
                                         </span>
                                     </button>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="dos" id="medio">
+                                    <button class="dos" id="marcas-ropa" @click="selectedTheme = 'Marca Ropa'">
                                         <span>
                                             Marcas de ropa
                                         </span>
                                     </button>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="dos" id="hard">
+                                    <button class="dos" id="ciudades" @click="selectedTheme = 'Ciudades'">
                                         <span>
-                                            ciudades
+                                            Ciudades
                                         </span>
                                     </button>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="dos">
+                                    <button class="dos" id="paises" @click="selectedTheme = 'Paises'">
                                         <span>
-                                            Departamentos
+                                            Paises
                                         </span>
                                     </button>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="dos">
+                                    <button class="dos" id="frutas" @click="selectedTheme = 'Frutas'">
                                         <span>
                                             Frutas
                                         </span>
@@ -81,7 +80,7 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="dos" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" id="dos" data-bs-dismiss="modal" @click="selectedDifficulty = null; selectedTheme = null">Close</button>
                         </div>
                     </div>
                 </div>
@@ -92,6 +91,13 @@
 </template>
 
 <script setup>
+
+import { ref } from 'vue';
+
+const selectedDifficulty = ref(null); // Para controlar la selección de dificultad
+const selectedTheme = ref(null);      // Para controlar la selección de tema
+console.log(selectedDifficulty.value);
+console.log(selectedTheme.value);
 
 </script>
 

@@ -23,9 +23,7 @@ document.querySelector('#btn-ir-modalidad').addEventListener('click',()=>{
 
     document.querySelector('#hard').addEventListener('click',()=>{
         createApp(dificil).mount('#app')
-    })
-
-    
+    }) 
 })
 
 
