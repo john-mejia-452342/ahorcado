@@ -3,12 +3,9 @@ import './style.css'
 import App from './App.vue'
 import modalidad from './components/modalidad.vue'
 import frutas from './components/frutas.vue'
-import facil from './components/facil.vue'
+// import animales from './components/'
 
-createApp(facil).mount('#app')
-
-
-// createApp(App).mount('#app')
+createApp(frutas).mount('#app')
 
 // document.querySelector('#btn-ir-modalidad').addEventListener('click',()=>{
 //     createApp(modalidad).mount('#app')

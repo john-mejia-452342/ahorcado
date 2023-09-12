@@ -64,7 +64,6 @@
 <script setup>
 import {ref} from 'vue';
 
-// ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
 
 import fondo from "/src/assets/fondo.png";
@@ -78,7 +77,7 @@ import pierna from "/src/assets/pierna.png";
 import lost_img from "/src/assets/lose.png";
 import win_img from "/src/assets/win.png";
 
-
+//Abrir modal inicio de pagina 
 document.addEventListener('DOMContentLoaded', function () {
   var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
   modal.show();
@@ -109,11 +108,13 @@ const frutas = ref([
   "Frambuesa",
 ]);
 
-let chosenDifficulty = ref('');
 
+//Dificultad
+let chosenDifficulty = ref('');
 function chooseDifficulty(difficulty) {
   chosenDifficulty.value = difficulty;
 }
+
 let game = ref(true)
 let win = ref(false)
 let lost = ref(false)
@@ -126,10 +127,12 @@ let color_botones = ref([])
 let mensaje = ref('');
 let imagen = ref([fondo])
 
-  
+let lastButtonClicked = ref(null);
+
 
 function generarAleatorio() {
   palabra_escrita.value = []
+  lastButtonClicked.value = null;
   game.value = true
   aleatorio.value = Math.floor(Math.random()*frutas.value.length)
   for (let i = 0; i < frutas.value[aleatorio.value].length; i++) {
@@ -150,22 +153,35 @@ function comparar(caracter, posicion) {
           palabra_escrita.value[i] = caracter;
           contador_aciertos.value++;
           
-          //Cambiar dificultad facil 
+          //dificultad facil 
           if(chosenDifficulty.value == 'easy'){
             color_botones.value[posicion] = 'verde'
             botones.value[posicion] = true;
           }
+          if (chosenDifficulty.value !== 'easy') {
+            botones.value[posicion] = false;
+          }
+        }
+      }
+      //Presionar dos veces error dificultad media y dificil 
+      if (chosenDifficulty.value !== 'easy') {
+        botones.value[posicion] = false; 
+        if (caracter !== lastButtonClicked.value) {
+          lastButtonClicked.value = caracter;
+        }else{
+          contador_errores.value++;
         }
       }
     } else {
-      contador_errores.value++;
-        //Cambiar dificultad facil 
+        //dificultad facil 
       if(chosenDifficulty.value == 'easy'){
         color_botones.value[posicion] = 'rojo'
+        contador_errores.value++;
         botones.value[posicion] = true;
       }
+      
     }
-
+    //Facil
     if(chosenDifficulty.value == 'easy'){
       if (contador_errores.value == 1) {
         imagen.value = [base]
@@ -210,7 +226,7 @@ function comparar(caracter, posicion) {
         game.value = false
       }
     }
-
+    //Medio
     if (chosenDifficulty.value == 'medium') {
       if (contador_errores.value == 1) {
         imagen.value = [base]
@@ -251,7 +267,7 @@ function comparar(caracter, posicion) {
         game.value = false
       }
     }
-
+    //Dificil
     if(chosenDifficulty.value == 'hard'){
       if (contador_errores.value == 1) {
         imagen.value = [base2]
@@ -303,6 +319,7 @@ function created() {
   color_botones.value = []
   mensaje.value = '';
   imagen.value = [fondo]
+  lastButtonClicked = ref(null);
   generarAleatorio()
 }
 
