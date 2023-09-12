@@ -5,7 +5,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">ELIGE UNA DIFICULTAD</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: black;">ELIGE UNA DIFICULTAD</h1>
           </div>
           <div class="modal-body">
             <button class="learn-more" @click="chooseDifficulty('easy')"  data-bs-dismiss="modal">
@@ -29,43 +29,55 @@
           </div>
         </div>
       </div>
-  </div>
+    </div>
     <div class="container_letras">
-      <div v-for="(item, i) in letras" :key="i" class="container-items">
-        <div v-for="(letra, j) in item" :key="j" class="container-letras">
-          <button class="delete-button">{{ letra }}</button>
-        </div>
+      <div v-for="(item, index) in letras" :key="index" class="container-items">
+        <button   v-on:click="comparar(item,index)"  v-bind:disabled="botones[index]" 
+        v-bind:class="{verde:color_botones[index]=='verde' , rojo:color_botones[index]=='rojo'}">{{item}}</button>
       </div>
     </div>
-    <div class="container-ahorcado">
-      <div class="ahorcado">
-        <div class="base2">
-          <img src="src/assets/base2.png" alt="">
-        </div>
-        <div class="base3">
-          <img src="src/assets/base3.png" alt="">
-        </div>
-        <div class="base1">
-          <img src="src/assets/base1.png" alt="">
-        </div>
-        <div class="base">
-          <img src="src/assets/base.png" alt="">
+    <div class="container-game">
+      <div class="container-ahorcado">
+        <div class="ahorcado">
+          <div v-for="(item,index) in imagen" :key="index">
+            <img :src="item" alt="">
+          </div>
         </div>
       </div>
-
+      <div class="container-letras-ahorcado">
+        <ul id="horizontal-list"> 
+          <button
+            v-for="(item, index) in palabra_escrita"
+            :key="index"
+            type="button"
+            class="btn btn-success">
+            <span class="badge" v-if="item">{{ item }}</span>
+          </button>
+        </ul>
+      </div>
+      <button type="button" class="btn btn-secondary nuevo" @click="created">Nuevo Juego</button>
     </div>
-
+    
   </div>
 </template>
-  
-<script setup>
-import { ref } from 'vue';
 
-let letras = ref([
-  ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-  ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ñ"],
-  ["Z", "X", "C", "V", "B", "N", "M"]
-])
+<script setup>
+import {ref} from 'vue';
+
+// ES6 Modules or TypeScript
+import Swal from 'sweetalert2'
+
+import fondo from "/src/assets/fondo.png";
+import base from "/src/assets/base.png";
+import base2 from "/src/assets/base2.png";
+import cabeza from   "/src/assets/cabeza.png";
+import cuerpo from "/src/assets/cuerpo.png";
+import cuerpo_mano from "/src/assets/cuerpo-mano.png";
+import cuerpo_manos from "/src/assets/cuerpo-manos.png";
+import pierna from "/src/assets/pierna.png";
+import lost_img from "/src/assets/lose.png";
+import win_img from "/src/assets/win.png";
+
 
 document.addEventListener('DOMContentLoaded', function () {
   var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
@@ -73,61 +85,323 @@ document.addEventListener('DOMContentLoaded', function () {
   function cerrarModal() {
   modal.hidden()
   }
+  created()
 });
 
+const letras = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", 
+"M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]);
 
+const frutas = ref([
+  "Manzana",
+  "Banano",
+  "Naranja",
+  "Uva",
+  "Fresa",
+  "Sandia",
+  "Kiwi",
+  "Melocoton",
+  "Mango",
+  "Papaya",
+  "Limon",
+  "Cereza",
+  "Arandano",
+  "Pera",
+  "Frambuesa",
+]);
 
+let chosenDifficulty = ref('');
 
-// const modal = ref(false);
+function chooseDifficulty(difficulty) {
+  chosenDifficulty.value = difficulty;
+}
+let game = ref(true)
+let win = ref(false)
+let lost = ref(false)
+let contador_aciertos = ref(0)
+let contador_errores = ref(0)
+let aleatorio = ref(0)
+let palabra_escrita = ref([])
+let botones = ref([])
+let color_botones = ref([])
+let mensaje = ref('');
+let imagen = ref([fondo])
 
-// const showModal = () => {
-//   modal.value = true;
-// };
+  
 
-// const chooseDifficulty = (difficulty) => {
-//   // Realiza las acciones necesarias cuando se elige una dificultad
-//   // Por ejemplo, puedes emitir un evento o realizar alguna acción específica aquí
-//   console.log(`Dificultad elegida: ${difficulty}`);
+function generarAleatorio() {
+  palabra_escrita.value = []
+  game.value = true
+  aleatorio.value = Math.floor(Math.random()*frutas.value.length)
+  for (let i = 0; i < frutas.value[aleatorio.value].length; i++) {
+    palabra_escrita.value.push('')
+  }
+  return aleatorio.value
+}
 
-//   // Cierra el modal después de realizar las acciones
-//   modal.value = false;
-// };
+function comparar(caracter, posicion) {
+  if (game.value) {
+    const palabraGenerada = palabra_generada().toLowerCase();
+    const letra = caracter.toLowerCase();
 
+    //Buscar letras
+    if (palabraGenerada.includes(letra)) {
+      for (let i = 0; i < palabraGenerada.length; i++) {
+        if (palabraGenerada[i] === letra && palabra_escrita.value[i] === '') {
+          palabra_escrita.value[i] = caracter;
+          contador_aciertos.value++;
+          
+          //Cambiar dificultad facil 
+          if(chosenDifficulty.value == 'easy'){
+            color_botones.value[posicion] = 'verde'
+            botones.value[posicion] = true;
+          }
+        }
+      }
+    } else {
+      contador_errores.value++;
+        //Cambiar dificultad facil 
+      if(chosenDifficulty.value == 'easy'){
+        color_botones.value[posicion] = 'rojo'
+        botones.value[posicion] = true;
+      }
+    }
 
+    if(chosenDifficulty.value == 'easy'){
+      if (contador_errores.value == 1) {
+        imagen.value = [base]
+      }else if(contador_errores.value == 2){
+        imagen.value = [base2]
+      }else if(contador_errores.value == 3){
+        imagen.value = [cabeza]
+      }else if(contador_errores.value == 4){
+        imagen.value = [cuerpo]
+      }else if(contador_errores.value == 5){
+        imagen.value = [cuerpo_mano]
+      }else if(contador_errores.value == 6){
+        imagen.value = [cuerpo_manos]
+      }else if(contador_errores.value == 7){
+        imagen.value = [pierna]
+      }else if (contador_errores.value == 8) {
+        imagen.value = [lost_img]
+        Swal.fire({
+          title: 'YOU LOSE!',
+          width: 400,
+          padding: '3em',
+          color: 'red',
+          background: '#fff',
+          backdrop: `rgba(240,63,68,0.4)`
+        })
+        mensaje.value= 'Perdiste'
+        lost.value = true
+        game.value = false
+      }
+      if (contador_aciertos.value == palabraGenerada.length) {
+        imagen.value = [win_img]
+        Swal.fire({
+          title: 'YOU WIN!',
+          width: 400,
+          padding: '3em',
+          color: 'green',
+          background: '#fff',
+          backdrop: `rgba(55,235,103,0.4)`
+        })
+        mensaje.value= 'Bien Hecho'
+        win.value = true
+        game.value = false
+      }
+    }
+
+    if (chosenDifficulty.value == 'medium') {
+      if (contador_errores.value == 1) {
+        imagen.value = [base]
+      }else if(contador_errores.value == 2){
+        imagen.value = [base2]
+      }else if(contador_errores.value == 3){
+        imagen.value = [cabeza]
+      }else if(contador_errores.value == 4){
+        imagen.value = [cuerpo]
+      }else if(contador_errores.value == 5){
+        imagen.value = [cuerpo_manos]
+      }else if(contador_errores.value == 6){
+        imagen.value = [lost_img]
+        Swal.fire({
+          title: 'YOU LOSE!',
+          width: 400,
+          padding: '3em',
+          color: 'red',
+          background: '#fff',
+          backdrop: `rgba(240,63,68,0.4)`
+        })
+        mensaje.value= 'Perdiste'
+        lost.value = true
+        game.value = false
+      }
+      if (contador_aciertos.value == palabraGenerada.length) {
+        imagen.value = [win_img]
+        Swal.fire({
+          title: 'YOU WIN!',
+          width: 400,
+          padding: '3em',
+          color: 'green',
+          background: '#fff',
+          backdrop: `rgba(55,235,103,0.4)`
+        })
+        mensaje.value= 'Bien Hecho'
+        win.value = true
+        game.value = false
+      }
+    }
+
+    if(chosenDifficulty.value == 'hard'){
+      if (contador_errores.value == 1) {
+        imagen.value = [base2]
+      }else if(contador_errores.value == 2){
+        imagen.value = [cuerpo]
+      }else if(contador_errores.value == 3){
+        imagen.value = [cuerpo_manos]
+      }else if(contador_errores.value == 4){
+        imagen.value = [lost_img]
+        Swal.fire({
+          title: 'YOU LOSE!',
+          width: 400,
+          padding: '3em',
+          color: 'red',
+          background: '#fff',
+          backdrop: `rgba(240,63,68,0.4)`
+        })
+        mensaje.value= 'Perdiste'
+        lost.value = true
+        game.value = false
+      }
+      if (contador_aciertos.value == palabraGenerada.length) {
+        imagen.value = [win_img]
+        Swal.fire({
+          title: 'YOU WIN!',
+          width: 400,
+          padding: '3em',
+          color: 'green',
+          background: '#fff',
+          backdrop: `rgba(55,235,103,0.4)`
+        })
+        mensaje.value= 'Bien Hecho'
+        win.value = true
+        game.value = false
+      }
+    }
+  }
+}
+
+function created() {
+  game.value = true
+  win.value = false
+  lost.value = false
+  contador_aciertos.value = 0
+  contador_errores.value = 0
+  aleatorio.value = 0
+  palabra_escrita.value = []
+  botones.value = []
+  color_botones.value = []
+  mensaje.value = '';
+  imagen.value = [fondo]
+  generarAleatorio()
+}
+
+function palabra_generada(){
+  return frutas.value[aleatorio.value]
+}
 
 </script>
-  
+
+
 <style scoped>
-.container {
+
+.rojo{
+  background-color: red;
+}
+
+.verde{
+  background-color: green;
+}
+
+.container{
   display: flex;
+  align-items: center;
   padding: 0;
-  width: 100vh;
-  height: 100vh;
+  width: 100%;
+
+}
+
+.container_letras{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 20%;
+  width: 50%;
+}
+.container-items{
+  display: flex;
+  height: 50px;
+  width: 60px;
+}
+.container-items button{
+  height: 100%;
+  width: 100%;
+  margin: 2px;
+
+}
+.container-game{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+}
+.container-ahorcado{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  height: 400px;
+  width: 400px;
+}
+
+.ahorcado{
+  width: 100%;
+  height: 100%;
+}
+.ahorcado div img{
+  width: 100%;
+  height: 100%;
+}
+
+
+.container-letras-ahorcado{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:10px ;
+}
+
+#horizontal-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#horizontal-list button{
+  margin: 2px;
+  height: 38px;
+  width: 50px;
+  display: flex;
+  text-align: center;
   align-items: center;
 }
 
-.container_letras {
-  display: flex;
-  flex-direction: column;
-}
-
-.container-items {
-  display: flex;
-  margin: 2px;
-}
-
-h1 {
-  color: black;
-}
-
-.container_letras button {
-  margin: 2px;
-}
-
-.container-ahorcado {
-  background-color: white;
-  height: 50%;
-  width: 70%;
+.nuevo{
+  margin-top: 10px;
 }
 
 .modal-body {
@@ -228,108 +502,5 @@ h1 {
 .modal-body button:hover .button-text {
   color: #fff;
 }
-
-.delete-button {
-  background-color: #f5f3f3;
-  color: #fff;
-  font-size: 14px;
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 8px;
-  width: 40px;
-  height: 45px;
-  border-radius: 15px 15px 12px 12px;
-  cursor: pointer;
-  position: relative;
-  will-change: transform;
-  transition: all .1s ease-in-out 0s;
-  user-select: none;
-  /* Add gradient shading to each side */
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0)),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
-  background-position: bottom right, bottom right;
-  background-size: 100% 100%, 100% 100%;
-  background-repeat: no-repeat;
-  box-shadow: inset -4px -10px 0px rgba(255, 255, 255, 0.4),
-    inset -4px -8px 0px rgba(0, 0, 0, 0.3),
-    0px 2px 1px rgba(0, 0, 0, 0.3),
-    0px 2px 1px rgba(255, 255, 255, 0.1);
-  transform: perspective(70px) rotateX(5deg) rotateY(0deg);
-}
-
-.delete-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.5));
-  z-index: -1;
-  border-radius: 15px;
-  box-shadow: inset 4px 0px 0px rgba(255, 255, 255, 0.1),
-    inset 4px -8px 0px rgba(0, 0, 0, 0.3);
-  transition: all .1s ease-in-out 0s;
-}
-
-.delete-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
-  background-position: bottom right, bottom right;
-  background-size: 100% 100%, 100% 100%;
-  background-repeat: no-repeat;
-  z-index: -1;
-  border-radius: 15px;
-  transition: all .1s ease-in-out 0s;
-}
-
-.delete-button:active {
-  will-change: transform;
-  transform: perspective(80px) rotateX(5deg) rotateY(1deg) translateY(3px) scale(0.96);
-  height: 34px;
-  border: 0.25px solid rgba(0, 0, 0, 0.2);
-  box-shadow: inset -4px -8px 0px rgba(255, 255, 255, 0.2),
-    inset -4px -6px 0px rgba(0, 0, 0, 0.8),
-    0px 1px 0px rgba(0, 0, 0, 0.9),
-    0px 1px 0px rgba(255, 255, 255, 0.2);
-  transition: all .1s ease-in-out 0s;
-}
-
-.delete-button::after:active {
-  background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.2));
-}
-
-.delete-button:active::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 5%;
-  left: 20%;
-  width: 50%;
-  height: 50%;
-  background-color: rgba(0, 0, 0, 0.1);
-  animation: overlay 0.1s ease-in-out 0s;
-  pointer-events: none;
-}
-
-@keyframes overlay {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.delete-button:focus {
-  outline: none;
-}
 </style>
-  
-  
+
