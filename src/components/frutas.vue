@@ -55,6 +55,13 @@
           </button>
         </ul>
       </div>
+      <div>
+        <select v-model="chosenDifficulty" class="">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    </div>
       <button type="button" class="btn btn-secondary nuevo" @click="created">Nuevo Juego</button>
     </div>
     
@@ -63,6 +70,8 @@
 
 <script setup>
 import {ref} from 'vue';
+import { onMounted } from 'vue';
+
 
 import Swal from 'sweetalert2'
 
@@ -77,14 +86,13 @@ import pierna from "/src/assets/pierna.png";
 import lost_img from "/src/assets/lose.png";
 import win_img from "/src/assets/win.png";
 
-//Abrir modal inicio de pagina 
-document.addEventListener('DOMContentLoaded', function () {
+onMounted(() => {
   var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
   modal.show();
   function cerrarModal() {
-  modal.hidden()
+    modal.hidden()
   }
-  created()
+ created()
 });
 
 const letras = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", 
@@ -168,7 +176,7 @@ function comparar(caracter, posicion) {
         botones.value[posicion] = false; 
         if (caracter !== lastButtonClicked.value) {
           lastButtonClicked.value = caracter;
-        }else{
+        } else {
           contador_errores.value++;
         }
       }
@@ -178,6 +186,11 @@ function comparar(caracter, posicion) {
         color_botones.value[posicion] = 'rojo'
         contador_errores.value++;
         botones.value[posicion] = true;
+      }
+
+      if(chosenDifficulty.value != 'easy'){
+        botones.value[posicion] = false
+        contador_errores.value++;
       }
       
     }
@@ -319,7 +332,7 @@ function created() {
   color_botones.value = []
   mensaje.value = '';
   imagen.value = [fondo]
-  lastButtonClicked = ref(null);
+  lastButtonClicked.value=null;
   generarAleatorio()
 }
 

@@ -15,6 +15,7 @@ document.querySelector('#btn-ir-modalidad').addEventListener('click',()=>{
 
     document.querySelector('#frutas').addEventListener('click',() =>{
         createApp(frutas).mount('#app')
+        
     })
     document.querySelector('#animales').addEventListener('click',() =>{
         createApp(animales).mount('#app')
@@ -33,4 +34,12 @@ document.querySelector('#btn-ir-modalidad').addEventListener('click',()=>{
 
 
 
-
+//Abrir modal inicio de pagina 
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    modal.show();
+    function cerrarModal() {
+    modal.hidden()
+    }
+    created()
+});

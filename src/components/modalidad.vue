@@ -1,47 +1,46 @@
 <template>
     <div>
-        <div class="contenedor ">
-            <h1>Elige la dificultad en la que deseas jugar</h1>
-            <div class="mb-3">
-                <button class="dos" id="animales" @click="selectedTheme = 'Animales'">
-                    <span>
-                        Animales
-                    </span>
-                </button>
-            </div>
-            <div class="mb-3">
-                <button class="dos" id="marcas-ropa" @click="selectedTheme = 'Marca Ropa'">
-                    <span>
-                        Marcas de ropa
-                    </span>
-                </button>
-            </div>
-            <div class="mb-3">
-                <button class="dos" id="ciudades" @click="selectedTheme = 'Ciudades'">
-                    <span>
-                        Ciudades
-                    </span>
-                </button>
-            </div>
-            <div class="mb-3">
-                <button class="dos" id="paises" @click="selectedTheme = 'Paises'">
-                    <span>
-                        Paises
-                    </span>
-                </button>
-            </div>
-            <div class="mb-3">
-                <button class="dos" id="frutas" @click="selectedTheme = 'Frutas'">
-                    <span>
-                        Frutas
-                    </span>
-                </button>
-            </div>
-            
+        <div class="contenedor">
+            <h1>Elige la tematica en la que deseas jugar</h1>
+            <div class="container-buttons">
 
-        
+                <div class="mb-3">
+                    <button class="dos" id="animales" @click="selectedTheme = 'Animales'">
+                        <span>
+                            Animales
+                        </span>
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <button class="dos" id="marcas-ropa" @click="selectedTheme = 'Marca Ropa'">
+                        <span>
+                            Marcas de ropa
+                        </span>
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <button class="dos" id="ciudades" @click="selectedTheme = 'Ciudades'">
+                        <span>
+                            Ciudades
+                        </span>
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <button class="dos" id="paises" @click="selectedTheme = 'Paises'">
+                        <span>
+                            Paises
+                        </span>
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <button class="dos" id="frutas" @click="selectedTheme = 'Frutas'">
+                        <span>
+                            Frutas
+                        </span>
+                    </button>
+                </div>
+            </div>  
         </div>
-
     </div>
 </template>
 
@@ -59,12 +58,17 @@ console.log(selectedTheme.value);
 <style scoped>
 .contenedor {
     border: solid rgb(255, 255, 255) 2px;
-    height: 63vh;
     width: 100%;
     background-color: rgba(136, 134, 134, 0.637);
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.container-buttons{
+    display: flex;
+    flex-direction:row ;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #exampleModalLabel {
