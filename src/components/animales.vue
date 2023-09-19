@@ -1,39 +1,33 @@
 <template>
     <div class="container">
       <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: black;">ELIGE UNA DIFICULTAD</h1>
-                    </div>
-                    <div class="modal-body">
-                        <button class="learn-more" @click="chooseDifficulty('easy')"  data-bs-dismiss="modal">
-                            <span class="circle" aria-hidden="true">
-                            <span class="icon arrow"></span>
-                            </span>
-                            <span class="button-text">E A S Y </span>
-                        </button>
-                        <button class="learn-more" @click="chooseDifficulty('medium')" data-bs-dismiss="modal">
-                            <span class="circle" aria-hidden="true">
-                            <span class="icon arrow"></span>
-                            </span>
-                            <span class="button-text">M E D I U M</span>
-                        </button>
-                        <button class="learn-more" @click="chooseDifficulty('hard')" data-bs-dismiss="modal">
-                            <span class="circle" aria-hidden="true">
-                            <span class="icon arrow"></span>
-                            </span>
-                            <span class="button-text">H A R D</span>
-                        </button>
-                    </div>
-                </div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: black;">ELIGE UNA DIFICULTAD</h1>
             </div>
-        </div>
-      <div class="container_letras">
-        <div v-for="(item, index) in letras" :key="index" class="container-items">
-          <button   v-on:click="comparar(item,index)"  v-bind:disabled="botones[index]" 
-          v-bind:class="{verde:color_botones[index]=='verde' , rojo:color_botones[index]=='rojo'}">{{item}}</button>
+            <div class="modal-body">
+              <button class="learn-more" @click="chooseDifficulty('easy')"  data-bs-dismiss="modal">
+                <span class="circle" aria-hidden="true">
+                  <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">E A S Y </span>
+              </button>
+              <button class="learn-more" @click="chooseDifficulty('medium')" data-bs-dismiss="modal">
+                <span class="circle" aria-hidden="true">
+                  <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">M E D I U M</span>
+              </button>
+              <button class="learn-more" @click="chooseDifficulty('hard')" data-bs-dismiss="modal">
+                <span class="circle" aria-hidden="true">
+                  <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">H A R D</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="container-game">
@@ -55,14 +49,22 @@
             </button>
           </ul>
         </div>
-        <div>
-            <select v-model="chosenDifficulty" class="">
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-            </select>
+        <div class="container-opciones">
+          <select v-model="chosenDifficulty" class="select-dificultad">
+              <option value="easy" class="easy">Easy</option>
+              <option value="medium" class="medium">Medium</option>
+              <option value="hard" class="hard">Hard</option>
+          </select>
+          <button type="button" class="btn btn-secondary nuevo" @click="created">Nuevo Juego</button>
+          <button type="button" class="btn btn-danger" >Errores:  {{contador_errores}}</button>
+          <button type="button" class="btn btn-success" >Aciertos:  {{contador_aciertos}}</button>
+      </div>
+      </div>
+      <div class="container_letras">
+        <div v-for="(item, index) in letras" :key="index" class="container-items">
+          <button   v-on:click="comparar(item,index)"  v-bind:disabled="botones[index]" 
+          v-bind:class="{verde:color_botones[index]=='verde' , rojo:color_botones[index]=='rojo'}">{{item}}</button>
         </div>
-        <button type="button" class="btn btn-secondary nuevo" @click="created">Nuevo Juego</button>
       </div>
       
     </div>
@@ -347,194 +349,219 @@
   
   
   <style scoped>
-  
-  .rojo{
-    background-color: red;
-  }
-  
-  .verde{
-    background-color: green;
-  }
-  
-  .container{
-    display: flex;
-    align-items: center;
-    padding: 0;
-    width: 100%;
-  
-  }
-  
-  .container_letras{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    height: 20%;
-    width: 50%;
-  }
-  .container-items{
-    display: flex;
-    height: 50px;
-    width: 60px;
-  }
-  .container-items button{
-    height: 100%;
-    width: 100%;
-    margin: 2px;
-  
-  }
-  .container-game{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 80%;
-  }
-  .container-ahorcado{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: white;
-    height: 400px;
-    width: 400px;
-  }
-  
-  .ahorcado{
-    width: 100%;
-    height: 100%;
-  }
-  .ahorcado div img{
-    width: 100%;
-    height: 100%;
-  }
-  
-  
-  .container-letras-ahorcado{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top:10px ;
-  }
-  
-  #horizontal-list{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  #horizontal-list button{
-    margin: 2px;
-    height: 38px;
-    width: 50px;
-    display: flex;
-    text-align: center;
-    align-items: center;
-  }
-  
-  .nuevo{
-    margin-top: 10px;
-  }
-  
-  .modal-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .learn-more {
-    margin-top: 10px;
-  }
-  
-  .modal-body button {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    outline: none;
-    border: 0;
-    vertical-align: middle;
-    text-decoration: none;
-    background: transparent;
-    padding: 0;
-    font-size: inherit;
-    font-family: inherit;
-  }
-  
-  .modal-body button.learn-more {
-    width: 12rem;
-    height: auto;
-  }
-  
-  .modal-body button.learn-more .circle {
-    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-    position: relative;
-    display: block;
-    margin: 0;
-    width: 3rem;
-    height: 3rem;
-    background: #282936;
-    border-radius: 1.625rem;
-  }
-  
-  .modal-body button.learn-more .circle .icon {
-    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    background: #fff;
-  }
-  
-  .modal-body button.learn-more .circle .icon.arrow {
-    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-    left: 0.625rem;
-    width: 1.125rem;
-    height: 0.125rem;
-    background: none;
-  }
-  
-  .modal-body button.learn-more .circle .icon.arrow::before {
-    position: absolute;
-    content: "";
-    top: -0.29rem;
-    right: 0.0625rem;
-    width: 0.625rem;
-    height: 0.625rem;
-    border-top: 0.125rem solid #fff;
-    border-right: 0.125rem solid #fff;
-    transform: rotate(45deg);
-  }
-  
-  .modal-body button.learn-more .button-text {
-    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 0.75rem 0;
-    margin: 0 0 0 1.85rem;
-    color: #000000;
-    font-weight: 700;
-    line-height: 1.6;
-    text-align: center;
-    text-transform: uppercase;
-  }
-  
-  .modal-body button:hover .circle {
-    width: 100%;
-  }
-  
-  .modal-body button:hover .circle .icon.arrow {
-    background: #fff;
-    transform: translate(1rem, 0);
-  }
-  
-  .modal-body button:hover .button-text {
-    color: #fff;
-  }
-  </style>
-  
-  
+
+.rojo{
+  background-color: red;
+}
+
+.verde{
+  background-color: green;
+}
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0;
+  width: 100%;
+
+}
+
+.container_letras{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 20%;
+  width: 50%;
+}
+.container-items{
+  display: flex;
+  height: 50px;
+  width: 60px;
+}
+.container-items button{
+  height: 100%;
+  width: 100%;
+  margin: 2px;
+
+}
+.container-game{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+}
+.container-ahorcado{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  height: 400px;
+  width: 400px;
+}
+
+.ahorcado{
+  width: 100%;
+  height: 100%;
+}
+.ahorcado div img{
+  width: 100%;
+  height: 100%;
+}
+.container-items button{
+  height: 100%;
+  width: 100%;
+  margin: 2px;
+
+}
+
+.easy{
+  background-color: rgb(120, 250, 120);
+}
+.medium{
+  background-color: rgb(225, 188, 118);
+}
+
+.hard{
+  background-color: rgb(231, 100, 100);
+}
+.container-opciones{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  font-size: 20px;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.container-letras-ahorcado{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:10px ;
+}
+
+#horizontal-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#horizontal-list button{
+  margin: 2px;
+  height: 38px;
+  width: 50px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.learn-more {
+  margin-top: 10px;
+}
+
+.modal-body button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.modal-body button.learn-more {
+  width: 12rem;
+  height: auto;
+}
+
+.modal-body button.learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #282936;
+  border-radius: 1.625rem;
+}
+
+.modal-body button.learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+}
+
+.modal-body button.learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: 0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+}
+
+.modal-body button.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+}
+
+.modal-body button.learn-more .button-text {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1.85rem;
+  color: #000000;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.modal-body button:hover .circle {
+  width: 100%;
+}
+
+.modal-body button:hover .circle .icon.arrow {
+  background: #fff;
+  transform: translate(1rem, 0);
+}
+
+.modal-body button:hover .button-text {
+  color: #fff;
+}
+</style>
+

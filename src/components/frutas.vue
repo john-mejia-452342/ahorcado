@@ -30,12 +30,6 @@
         </div>
       </div>
     </div>
-    <div class="container_letras">
-      <div v-for="(item, index) in letras" :key="index" class="container-items">
-        <button   v-on:click="comparar(item,index)"  v-bind:disabled="botones[index]" 
-        v-bind:class="{verde:color_botones[index]=='verde' , rojo:color_botones[index]=='rojo'}">{{item}}</button>
-      </div>
-    </div>
     <div class="container-game">
       <div class="container-ahorcado">
         <div class="ahorcado">
@@ -55,19 +49,26 @@
           </button>
         </ul>
       </div>
-      <div>
-        <select v-model="chosenDifficulty" class="">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
+      <div class="container-opciones">
+        <select v-model="chosenDifficulty" class="select-dificultad">
+            <option value="easy" class="easy">Easy</option>
+            <option value="medium" class="medium">Medium</option>
+            <option value="hard" class="hard">Hard</option>
         </select>
+        <button type="button" class="btn btn-secondary nuevo" @click="created">Nuevo Juego</button>
+        <button type="button" class="btn btn-danger" >Errores:  {{contador_errores}}</button>
+        <button type="button" class="btn btn-success" >Aciertos:  {{contador_aciertos}}</button>
     </div>
-      <button type="button" class="btn btn-secondary nuevo" @click="created">Nuevo Juego</button>
+    </div>
+    <div class="container_letras">
+      <div v-for="(item, index) in letras" :key="index" class="container-items">
+        <button   v-on:click="comparar(item,index)"  v-bind:disabled="botones[index]" 
+        v-bind:class="{verde:color_botones[index]=='verde' , rojo:color_botones[index]=='rojo'}">{{item}}</button>
+      </div>
     </div>
     
   </div>
 </template>
-
 <script setup>
 import {ref} from 'vue';
 import { onMounted } from 'vue';
@@ -356,6 +357,8 @@ function palabra_generada(){
 .container{
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   padding: 0;
   width: 100%;
 
@@ -404,7 +407,35 @@ function palabra_generada(){
   width: 100%;
   height: 100%;
 }
+.container-items button{
+  height: 100%;
+  width: 100%;
+  margin: 2px;
 
+}
+
+.easy{
+  background-color: rgb(120, 250, 120);
+}
+.medium{
+  background-color: rgb(225, 188, 118);
+}
+
+.hard{
+  background-color: rgb(231, 100, 100);
+}
+.container-opciones{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  font-size: 20px;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+
+}
 
 .container-letras-ahorcado{
   display: flex;
@@ -430,9 +461,6 @@ function palabra_generada(){
   align-items: center;
 }
 
-.nuevo{
-  margin-top: 10px;
-}
 
 .modal-body {
   display: flex;
